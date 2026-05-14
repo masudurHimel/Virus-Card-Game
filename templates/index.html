@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Virus! — Card Game</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+<!-- Reusable SVG icon library -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="icon-heart" viewBox="0 0 64 64">
+      <path d="M32 56 C8 38 4 22 16 14 c8-5 14 0 16 6 c2-6 8-11 16-6 c12 8 8 24 -16 42z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-brain" viewBox="0 0 64 64">
+      <path d="M22 12c-6 0-10 4-10 10c-4 2-5 8-1 11c-3 4 0 10 5 11c1 5 6 8 11 6c2 4 9 4 11 0c5 2 10-1 11-6c5-1 8-7 5-11c4-3 3-9-1-11c0-6-4-10-10-10c-3-4-9-4-11 0c-2-4-8-4-10 0z" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M32 16v32M22 22c4 2 4 6 0 8M42 22c-4 2-4 6 0 8" stroke="currentColor" stroke-width="2" fill="none"/>
+    </symbol>
+    <symbol id="icon-bone" viewBox="0 0 64 64">
+      <path d="M14 22c-5 0-8 3-8 7c0 3 2 6 5 6c-1 4 2 8 6 8c2 3 6 4 9 2l18-18c2-3 1-7-2-9c0-4-4-7-8-6c-1-3-5-5-8-3c-3-1-7 1-8 4c-1 4 1 7 5 8l-9 9c-1-5-3-8-0-8z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-stomach" viewBox="0 0 64 64">
+      <path d="M22 10c-3 0-6 3-6 7v4c-6 4-10 11-10 19c0 12 10 20 22 20c8 0 14-4 18-9c4 1 8-2 8-7c0-4-3-7-7-8c-1-3-3-6-6-8V14c0-3-3-5-6-4l-2 1c-1 2-3 3-5 3s-4-1-5-3l-1-1z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-multi" viewBox="0 0 64 64">
+      <path d="M32 6l7 18 19 1-15 13 5 19-16-11-16 11 5-19-15-13 19-1z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-virus" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="14" fill="currentColor"/>
+      <g stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <line x1="32" y1="6"  x2="32" y2="14"/>
+        <line x1="32" y1="50" x2="32" y2="58"/>
+        <line x1="6"  y1="32" x2="14" y2="32"/>
+        <line x1="50" y1="32" x2="58" y2="32"/>
+        <line x1="13" y1="13" x2="19" y2="19"/>
+        <line x1="45" y1="45" x2="51" y2="51"/>
+        <line x1="13" y1="51" x2="19" y2="45"/>
+        <line x1="45" y1="19" x2="51" y2="13"/>
+      </g>
+      <g fill="#fff">
+        <circle cx="26" cy="28" r="2.5"/>
+        <circle cx="38" cy="28" r="2.5"/>
+        <circle cx="32" cy="38" r="2.5"/>
+      </g>
+    </symbol>
+    <symbol id="icon-pill" viewBox="0 0 64 64">
+      <rect x="8" y="22" width="48" height="20" rx="10" fill="currentColor"/>
+      <rect x="8" y="22" width="24" height="20" rx="10" fill="rgba(255,255,255,0.55)"/>
+      <line x1="32" y1="22" x2="32" y2="42" stroke="rgba(0,0,0,0.25)" stroke-width="2"/>
+    </symbol>
+    <symbol id="icon-transplant" viewBox="0 0 64 64">
+      <path d="M10 22h32l-6-6m6 6l-6 6M54 42H22l6-6m-6 6l6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-thief" viewBox="0 0 64 64">
+      <path d="M20 50c-6-4-8-12-8-18l4-2v-12c0-2 2-4 4-4s4 2 4 4v10h2V14c0-2 2-4 4-4s4 2 4 4v12h2V16c0-2 2-4 4-4s4 2 4 4v14h2v-8c0-2 2-4 4-4s4 2 4 4v18c0 8-4 14-10 16z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-contagion" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="6" fill="currentColor"/>
+      <circle cx="14" cy="14" r="4" fill="currentColor"/>
+      <circle cx="50" cy="16" r="4" fill="currentColor"/>
+      <circle cx="50" cy="50" r="4" fill="currentColor"/>
+      <circle cx="14" cy="50" r="4" fill="currentColor"/>
+      <path d="M32 32L14 14M32 32L50 16M32 32L50 50M32 32L14 50" stroke="currentColor" stroke-width="2"/>
+    </symbol>
+    <symbol id="icon-glove" viewBox="0 0 64 64">
+      <path d="M18 14c0-3 3-4 5-3l4 2v-3c0-3 3-4 5-3l4 2v-2c0-3 3-4 5-3l4 2v-1c0-2 3-3 5-2l3 2v22c0 12-6 22-18 24h-2c-10 0-18-8-18-18V20l3-6z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-error" viewBox="0 0 64 64">
+      <rect x="6" y="12" width="22" height="40" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+      <rect x="36" y="12" width="22" height="40" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M28 24l8 0-3-3m3 3l-3 3M36 40h-8l3-3m-3 3l3 3" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-cardback" viewBox="0 0 64 64">
+      <rect x="6" y="6" width="52" height="52" rx="6" fill="currentColor"/>
+      <path d="M14 32L32 14l18 18-18 18z" fill="rgba(255,255,255,0.25)"/>
+    </symbol>
+    <symbol id="icon-bot" viewBox="0 0 24 24">
+      <rect x="5" y="8" width="14" height="11" rx="3" fill="currentColor"/>
+      <rect x="9" y="4" width="6" height="5" rx="1" fill="currentColor"/>
+      <circle cx="9.5" cy="13" r="1.2" fill="#15293a"/>
+      <circle cx="14.5" cy="13" r="1.2" fill="#15293a"/>
+      <rect x="11" y="2" width="2" height="3" rx="1" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-human" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4" fill="currentColor"/>
+      <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor"/>
+    </symbol>
+
+    <!-- ====== BOT AVATARS (full square portraits, 64x64) ====== -->
+    <symbol id="avatar-bot-1" viewBox="0 0 64 64">
+      <!-- "Dr. Nova" — surgical scientist (teal/cyan) -->
+      <defs>
+        <linearGradient id="ava1-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1e6f9a"/>
+          <stop offset="100%" stop-color="#0c3550"/>
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="32" fill="url(#ava1-bg)"/>
+      <!-- surgical cap -->
+      <path d="M16 26c0-9 7-15 16-15s16 6 16 15v3H16z" fill="#48c2d6"/>
+      <path d="M16 26c4-2 12-3 16-3s12 1 16 3v3H16z" fill="#5bd3e7"/>
+      <circle cx="32" cy="14" r="2" fill="#fff" opacity=".5"/>
+      <!-- face -->
+      <ellipse cx="32" cy="36" rx="11" ry="13" fill="#f0d2b1"/>
+      <!-- mask -->
+      <rect x="20" y="36" width="24" height="13" rx="4" fill="#e9f4f7"/>
+      <line x1="20" y1="40" x2="44" y2="40" stroke="#c6d8de" stroke-width="0.6"/>
+      <line x1="20" y1="44" x2="44" y2="44" stroke="#c6d8de" stroke-width="0.6"/>
+      <!-- eyes -->
+      <circle cx="27" cy="33" r="1.6" fill="#1c2b3a"/>
+      <circle cx="37" cy="33" r="1.6" fill="#1c2b3a"/>
+      <!-- shoulders -->
+      <path d="M8 64c2-9 10-13 24-13s22 4 24 13z" fill="#5bd3e7"/>
+    </symbol>
+
+    <symbol id="avatar-bot-2" viewBox="0 0 64 64">
+      <!-- "Vex" — virus punk (magenta/red) -->
+      <defs>
+        <linearGradient id="ava2-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#a8255a"/>
+          <stop offset="100%" stop-color="#4a0e2a"/>
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="32" fill="url(#ava2-bg)"/>
+      <!-- hair spikes -->
+      <path d="M12 28c0-12 9-19 20-19s20 7 20 19v2l-5-7-3 6-4-8-4 8-4-8-4 8-3-6-5 7z" fill="#1e1a26"/>
+      <path d="M22 16l1 6M32 12l0 7M42 16l-1 6" stroke="#ff4da6" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- face -->
+      <ellipse cx="32" cy="36" rx="11" ry="13" fill="#f3cdb6"/>
+      <!-- eye visor stripe -->
+      <rect x="18" y="32" width="28" height="5" rx="1.5" fill="#1e1a26"/>
+      <rect x="20" y="33.5" width="10" height="2" rx="0.6" fill="#ff4da6"/>
+      <rect x="34" y="33.5" width="10" height="2" rx="0.6" fill="#ff4da6"/>
+      <!-- mouth + nose stud -->
+      <path d="M28 44c2 1.5 6 1.5 8 0" stroke="#1e1a26" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <circle cx="30" cy="40" r="0.9" fill="#fff"/>
+      <!-- collar -->
+      <path d="M8 64c2-9 10-13 24-13s22 4 24 13z" fill="#1e1a26"/>
+      <path d="M22 56l4 8M42 56l-4 8" stroke="#ff4da6" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="avatar-bot-3" viewBox="0 0 64 64">
+      <!-- "Pixel" — friendly robot (green/lime) -->
+      <defs>
+        <linearGradient id="ava3-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2c8f4d"/>
+          <stop offset="100%" stop-color="#0e3a20"/>
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="32" fill="url(#ava3-bg)"/>
+      <!-- antenna -->
+      <line x1="32" y1="6" x2="32" y2="12" stroke="#aef2c2" stroke-width="2"/>
+      <circle cx="32" cy="6" r="2" fill="#ffd866"/>
+      <!-- head -->
+      <rect x="16" y="14" width="32" height="26" rx="6" fill="#cfe9d6"/>
+      <rect x="16" y="14" width="32" height="6" rx="6" fill="#aef2c2"/>
+      <!-- visor screen -->
+      <rect x="20" y="22" width="24" height="12" rx="2" fill="#0e3a20"/>
+      <circle cx="26" cy="28" r="2.4" fill="#5fe18b"/>
+      <circle cx="38" cy="28" r="2.4" fill="#5fe18b"/>
+      <path d="M26 31q2 1 4 0t4 0" stroke="#5fe18b" stroke-width="1" fill="none"/>
+      <!-- side bolts -->
+      <circle cx="14" cy="26" r="2" fill="#aef2c2"/>
+      <circle cx="50" cy="26" r="2" fill="#aef2c2"/>
+      <!-- neck -->
+      <rect x="28" y="40" width="8" height="4" fill="#aef2c2"/>
+      <!-- body/shoulders -->
+      <path d="M8 64c2-10 10-16 24-16s22 6 24 16z" fill="#cfe9d6"/>
+      <rect x="28" y="50" width="8" height="3" rx="1" fill="#ffd866"/>
+    </symbol>
+
+    <symbol id="avatar-human" viewBox="0 0 64 64">
+      <defs>
+        <linearGradient id="avaH-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#46c06d"/>
+          <stop offset="100%" stop-color="#1d6e3c"/>
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="32" fill="url(#avaH-bg)"/>
+      <!-- hair -->
+      <path d="M16 26c0-10 7-17 16-17s16 7 16 17v4H16z" fill="#5a3a22"/>
+      <!-- face -->
+      <ellipse cx="32" cy="34" rx="12" ry="13" fill="#f4d3b1"/>
+      <!-- eyes -->
+      <circle cx="27" cy="33" r="1.8" fill="#1e2c3a"/>
+      <circle cx="37" cy="33" r="1.8" fill="#1e2c3a"/>
+      <!-- smile -->
+      <path d="M27 41q5 4 10 0" stroke="#1e2c3a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- shoulders -->
+      <path d="M8 64c2-9 10-13 24-13s22 4 24 13z" fill="#9bd9ad"/>
+    </symbol>
+
+    <!-- Thinking bubble (floats above bot avatar) -->
+    <symbol id="icon-thought" viewBox="0 0 64 48">
+      <path d="M14 8 q0 -7 8 -7 q3 0 5 2 q3 -3 8 -3 q8 0 10 7 q6 1 6 7 q0 7 -8 8 l-22 0 q-9 0 -9 -8 q0 -4 2 -6z"
+            fill="#fff8dc" stroke="#c2a23a" stroke-width="1.5"/>
+      <circle cx="11" cy="36" r="3.5" fill="#fff8dc" stroke="#c2a23a" stroke-width="1.2"/>
+      <circle cx="6"  cy="44" r="2.2" fill="#fff8dc" stroke="#c2a23a" stroke-width="1.2"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===== START MENU ===== -->
+<div class="menu-screen" id="menu-screen">
+  <div class="menu-inner">
+    <div class="menu-logo">
+      <svg class="logo-svg" viewBox="0 0 64 64">
+        <use xlink:href="#icon-virus"/>
+      </svg>
+    </div>
+    <h1 class="menu-title">VIRUS!</h1>
+    <p class="menu-subtitle">A card game of organs, infections &amp; sabotage.</p>
+    <div class="menu-info">
+      <p><b>Goal:</b> Be first to have 4 healthy organs of 4 different colors.</p>
+      <p><b>Players:</b> You + 3 challenging bots, seated around the table.</p>
+      <p><b>Each turn:</b> Click a card to play it on a glowing target, or select 1&ndash;3 to discard.</p>
+    </div>
+    <button class="menu-cta primary" id="btn-start">Start Game</button>
+    <p class="menu-tip">Tip: bots think for a moment before playing. Watch the table.</p>
+  </div>
+</div>
+
+<!-- ===== TABLE ===== -->
+<div class="table-room" id="table-room" hidden>
+  <!-- Top opponent (Bot 2) -->
+  <div class="seat seat-top" data-seat="top">
+    <div class="opponent" data-player-idx="2" data-bot="2">
+      <div class="seat-name">
+        <div class="name-block">
+          <span class="avatar-frame">
+            <span class="think-bubble"><svg viewBox="0 0 64 48"><use xlink:href="#icon-thought"/></svg><span class="think-dots"><span></span><span></span><span></span></span></span>
+            <span class="avatar"><svg viewBox="0 0 64 64"><use xlink:href="#avatar-bot-2"/></svg></span>
+          </span>
+          <span class="name-stack">
+            <span class="name">Vex</span>
+            <span class="role">Bot 2</span>
+          </span>
+        </div>
+        <span class="hand-count"><svg class="hc-icon" viewBox="0 0 24 24"><use xlink:href="#icon-cardback"/></svg><span class="hc-num">3</span></span>
+      </div>
+      <div class="hand-back top"></div>
+      <div class="body-row top"></div>
+    </div>
+  </div>
+
+  <!-- Left opponent (Bot 1) -->
+  <div class="seat seat-left" data-seat="left">
+    <div class="opponent" data-player-idx="1" data-bot="1">
+      <div class="seat-name">
+        <div class="name-block">
+          <span class="avatar-frame">
+            <span class="think-bubble"><svg viewBox="0 0 64 48"><use xlink:href="#icon-thought"/></svg><span class="think-dots"><span></span><span></span><span></span></span></span>
+            <span class="avatar"><svg viewBox="0 0 64 64"><use xlink:href="#avatar-bot-1"/></svg></span>
+          </span>
+          <span class="name-stack">
+            <span class="name">Dr. Nova</span>
+            <span class="role">Bot 1</span>
+          </span>
+        </div>
+        <span class="hand-count"><svg class="hc-icon" viewBox="0 0 24 24"><use xlink:href="#icon-cardback"/></svg><span class="hc-num">3</span></span>
+      </div>
+      <div class="hand-back"></div>
+      <div class="body-row"></div>
+    </div>
+  </div>
+
+  <!-- Right opponent (Bot 3) -->
+  <div class="seat seat-right" data-seat="right">
+    <div class="opponent" data-player-idx="3" data-bot="3">
+      <div class="seat-name">
+        <div class="name-block">
+          <span class="avatar-frame">
+            <span class="think-bubble"><svg viewBox="0 0 64 48"><use xlink:href="#icon-thought"/></svg><span class="think-dots"><span></span><span></span><span></span></span></span>
+            <span class="avatar"><svg viewBox="0 0 64 64"><use xlink:href="#avatar-bot-3"/></svg></span>
+          </span>
+          <span class="name-stack">
+            <span class="name">Pixel</span>
+            <span class="role">Bot 3</span>
+          </span>
+        </div>
+        <span class="hand-count"><svg class="hc-icon" viewBox="0 0 24 24"><use xlink:href="#icon-cardback"/></svg><span class="hc-num">3</span></span>
+      </div>
+      <div class="hand-back"></div>
+      <div class="body-row"></div>
+    </div>
+  </div>
+
+  <!-- Center table -->
+  <div class="table-center">
+    <div class="felt">
+      <div class="table-piles">
+        <div class="pile pile-deck" id="deck">
+          <svg class="card-back-svg"><use xlink:href="#icon-cardback"/></svg>
+          <span class="pile-count" id="deck-count">--</span>
+          <span class="pile-label">Deck</span>
+        </div>
+        <div class="pile pile-discard" id="discard">
+          <span class="pile-count" id="discard-count">0</span>
+          <span class="pile-label">Discard</span>
+        </div>
+      </div>
+    </div>
+    <div class="turn-banner" id="turn-banner">Turn 1 — Your turn</div>
+  </div>
+
+  <!-- Bottom: chat/log on the left, human player on the right (mirrors the
+       classic Virus! board layout the user asked for). -->
+  <div class="seat seat-bottom" data-seat="bottom">
+    <aside class="game-log" id="game-log">
+      <h3>Game Log</h3>
+      <ul id="log-list"></ul>
+    </aside>
+    <div class="player-board">
+      <div class="player-header">
+        <div class="player-id">
+          <span class="avatar-frame human">
+            <span class="avatar"><svg viewBox="0 0 64 64"><use xlink:href="#avatar-human"/></svg></span>
+          </span>
+          <span class="name-stack">
+            <span class="name">You</span>
+            <span class="role">Player</span>
+          </span>
+          <span class="turn-pill" id="turn-pill">Your turn</span>
+        </div>
+        <div class="actions">
+          <button id="btn-play" class="primary" disabled>Play Card</button>
+          <button id="btn-discard" disabled>Discard Selected</button>
+          <button id="btn-menu">Menu</button>
+        </div>
+      </div>
+      <div class="hint-bar" id="hint">Click a card to play, or select 1–3 to discard.</div>
+      <div class="body-row" id="your-body"></div>
+      <div class="hand-row" id="your-hand"></div>
+    </div>
+  </div>
+
+  <!-- (Game log now lives inside .table-center to avoid covering opponents.) -->
+</div>
+
+<!-- Animation overlay (ghost cards fly here) -->
+<div class="anim-layer" id="anim-layer"></div>
+
+<!-- Confetti container (win) -->
+<div class="confetti" id="confetti" hidden></div>
+
+<!-- Win/Lose modal -->
+<div class="modal hidden" id="result-modal">
+  <div class="modal-inner" id="result-inner">
+    <h1 id="result-title">Game Over</h1>
+    <p id="result-msg"></p>
+    <div class="modal-buttons">
+      <button class="primary" id="btn-new2">Play Again</button>
+      <button id="btn-back-menu">Back to Menu</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/render.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

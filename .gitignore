@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# JetBrains IDE
+.idea/*
+.idea/workspace.xml
+.idea/Virus-Card-Game.iml
